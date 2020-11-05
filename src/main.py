@@ -15,7 +15,7 @@ def format_date(date):
 def build_wordcloud_with_mask(all_words, stopwords, mask):  
   wordcloud = WordCloud(
     stopwords=stopwords, 
-    background_color='black', 
+    background_color='white', 
     width=1920, 
     height=1080, 
     mask=mask
@@ -26,7 +26,7 @@ def build_wordcloud_with_mask(all_words, stopwords, mask):
 def build_wordcloud_without_mask(all_words, stopwords):
   wordcloud = WordCloud(
     stopwords=stopwords, 
-    background_color='black', 
+    background_color='white', 
     width=1920, 
     height=1080
   ).generate(all_words)
