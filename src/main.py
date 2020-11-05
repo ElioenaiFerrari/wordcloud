@@ -46,14 +46,10 @@ stopwords.update(['da', 'meu', 'em', 'você', 'de', 'ao', 'os', 'que', 'ola', 'd
 try:
   mask_path = str(sys.argv[2])
 
-  if(words_path != None and not words_path.isspace()):
-    try:
-      mask = np.array(Image.open(mask_path))
+  mask = np.array(Image.open(mask_path))
 
-      build_wordcloud_with_mask(all_words, stopwords, mask)
+  build_wordcloud_with_mask(all_words, stopwords, mask)
 
-    except:
-      print('Corrija os parâmetros e tente novamente')
 
 except:
   build_wordcloud_without_mask(all_words, stopwords)
