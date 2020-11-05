@@ -16,45 +16,44 @@ def build_wordcloud_with_mask(all_words, stopwords, mask):
   wordcloud = WordCloud(
     stopwords=stopwords, 
     background_color='black', 
-    width=1920, height=1080, 
+    width=1920, 
+    height=1080, 
     mask=mask
   ).generate(all_words)
 
-  return wordcloud.to_file(f'{format_date(date.today())}.png')
+  return wordcloud.to_file(f'{format_date(date.today())}_{len(all_words)}_words.png')
 
 def build_wordcloud_without_mask(all_words, stopwords):
-   wordcloud = WordCloud(
+  wordcloud = WordCloud(
     stopwords=stopwords, 
     background_color='black', 
-    width=1920, height=1080 
+    width=1920, 
+    height=1080
   ).generate(all_words)
 
-  return wordcloud.to_file(f'{format_date(date.today())}.png')
+  return wordcloud.to_file(f'{format_date(date.today())}_{len(all_words)}_words.png')
 
+
+print('Gerando nuvem de palavras...')
+words_path = str(sys.argv[1])
+words = open(words_path)
+
+all_words = " ".join(word for word in words)
+
+stopwords = set(STOPWORDS)
+stopwords.update(['da', 'meu', 'em', 'você', 'de', 'ao', 'os', 'que', 'ola', 'deseja'])
 
 try:
-  words_path = str(sys.argv[1])
   mask_path = str(sys.argv[2])
 
-  
   if(words_path != None and not words_path.isspace()):
     try:
-      words = open(words_path)
+      mask = np.array(Image.open(mask_path))
 
-      all_words = " ".join(word for word in words)
-
-      stopwords = set(STOPWORDS)
-      stopwords.update(['da', 'meu', 'em', 'você', 'de', 'ao', 'os', 'que', 'ola', 'deseja'])
-
-      if(mask_path != None and not mask_path.isspace()):
-        mask = np.array(Image.open(mask_path))
-
-        build_wordcloud_with_mask(all_words, stopwords, mask)
-      else:
-        build_wordcloud_without_mask(all_words, stopwords)
+      build_wordcloud_with_mask(all_words, stopwords, mask)
 
     except:
       print('Corrija os parâmetros e tente novamente')
 
 except:
-  print('error')
+  build_wordcloud_without_mask(all_words, stopwords)
